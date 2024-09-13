@@ -1,5 +1,5 @@
 Database Project for **Library database**
-##### Heading level 5
+##### Heading level 3
 
 The scope of this project is to use all the SQL knowledge gained throught the Software Testing course and apply them in practice.
 
@@ -14,9 +14,9 @@ Database description: The purpose of the library database is to collect and stor
     You can find below the database schema that was generated through Reverse Engineer and which contains all the tables and the relationships between them.
 
     The tables are connected in the following way:
-        **carti** is connected with **fisa_imprumut** through a **** relationship which was implemented through **nume_tabela.nume_coloana_cheie_primara** as a primary key and **nume_tabela.nume_coloana_cheie_secundara** as a foreign key
-        **nume tabela 3** is connected with **nume tabela 4** through a **tip relatie** relationship which was implemented through **nume_tabela.nume_coloana_cheie_primara** as a primary key and **nume_tabela.nume_coloana_cheie_secundara** as a foreign key
-        **nume tabela 5** is connected with **nume tabela 6** through a **tip relatie** relationship which was implemented through **nume_tabela.nume_coloana_cheie_primara** as a primary key and **nume_tabela.nume_coloana_cheie_secundara** as a foreign key
+        **carti** is connected with **fisa_imprumut** through a **** relationship which was implemented through **carti.cod_carte_cheie_primara** as a primary key and **fisa_imprumut.cod_carte_fisa_imprumut_ibfk_1** as a foreign key
+        **editura** is connected with **carti** through a **Many-to-One** relationship which was implemented through **editura.cod_editura_cheie_primara** as a primary key and **carti.cod_editura_carte_cheie_secundara** as a foreign key
+        **** is connected with **nume tabela 6** through a **tip relatie** relationship which was implemented through **nume_tabela.nume_coloana_cheie_primara** as a primary key and **nume_tabela.nume_coloana_cheie_secundara** as a foreign key
         ...........
         **nume tabela n** is connected with **nume tabela n+1** through a **tip relatie** relationship which was implemented through **nume_tabela.nume_coloana_cheie_primara** as a primary key and **nume_tabela.nume_coloana_cheie_secundara** as a foreign key
 
