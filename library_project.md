@@ -125,7 +125,7 @@ alter table carti add foreign key(id_categorie) references culoar(ID);
 
         In order to be able to use the database I populated the tables with various data necessary in order to perform queries and manipulate the data. In the testing process, this necessary data is identified in the Test Design phase and created in the Test Implementation phase.
 
-        Below you can find all the insert instructions that were created in the scope of this project:
+Below you can find all the insert instructions that were created in the scope of this project:
 
 -- Inserare date in tabela culoar
 insert into culoar (nr_locuri, categorie) values
@@ -299,23 +299,81 @@ update carti
 set nr_exemplare=10 where denumire='Enigma Otiliei';
 
 -- Actualizarea adresei si a numarului de telefon pentru citorul Miran Andrei
-update cititori set nr_telefon=0751452517 where (nume='Miran' and prenume='Andrei');
-update cititori set adresa='Str. Principala nr. 12, Voinesti' where nume='Miran' and prenume='Andrei';
+update cititori set nr_telefon=0751452517, adresa='Str. Principala nr. 12, Voinesti' where nume='Miran' and prenume='Andrei';
 
 -- Actualizarea statusului unor carti la momentul returnarii
-update fisa_imprumut set returnat=1 where cnp=1715643786534 and cnp=1643256789076;
+update fisa_imprumut set returnat=True where cnp=1715643786534 and cnp=1643256789076;
 
-
-update cititori set adresa='Str. Principala nr. 12, Voinesti' where nume='Miran' and prenume='Andrei';
 After the testing process, I deleted the data that was no longer relevant in order to preserve the database clean:
 -- Stergerea unor bibliotecari din tabela
 delete from bibliotecari where nume_si_prenume='Rusu Andrei' and nume_si_prenume='Candrea Viorel';
 
         DQL (Data Query Language)
 
-        Inserati aici toate instructiunile de DELETE pe care le-ati scris folosind filtrarile necesare astfel incat sa stergeti doar datele de care aveti nevoie
-
         In order to simulate various scenarios that might happen in real life I created the following queries that would cover multiple potential real-life situations:
+
+-- Afisare tabela carti
+select * from carti;
+
+-- Afisarea tuturor datelor din tabela pentru editura Litera
+select * from editura where nume_editura='Litera';
+
+-- Afisarea tuturor datelor pentru editura Corint sau pentru cea/cele care contin in nume grupul de litere 'escu'
+select * from editura where nume_editura='Corint' or nume_editura like '%escu';
+
+-- Returneaza numele, autorul, cate exemplare sunt disponibile si data publicarii, pentru cartile publicate dupa 30 decembrie 2019 si la editura Humanitas
+select denumire, autor, nr_exemplare, data_publicare, nume_editura from carti inner join editura
+on carti.cod_editura_carte=editura.cod_editura
+where data_publicare > '2019-12-30' and nume_editura='Humanitas';
+
+-- Afisati numele si autorul cartilor care nu sunt scrise de Mircea Eliade, Ionel Teodoreanu si Camil Petrescu
+select denumire, autor from carti where autor not in ('Mircea Eliade', 'Ionel Teodoreanu', 'Camil Petrescu');
+
+-- Afisarea tuturor datelor din tabela cititori care au imprumutat carti intre 1 februare 2024 si 30 mai 2024
+select * from cititori left join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp where data_imprumut between '2024-02-01'and '2024-05-30';
+
+-- Afisati cartile, autorul si numarul de exemplare pentru care media nr de exemplare este mai mare decat nr de bucati disponibile, ordonate descrescator dupa data publicarii
+select denumire, autor, nr_exemplare, data_publicare from carti where nr_exemplare > (select avg(nr_exemplare) from carti)
+order by data_publicare desc;
+
+-- Afisati primii 6 cititori care locuiesc in Iasi, indiferent de adresa exacta
+select nume, prenume, adresa from cititori where adresa like '%Iasi' 
+order by nume limit 6;
+
+-- Afisati editura/editurile care sunt din Iasi sau sunt Bookzone dar care sa aiba codul codul de editura cuprins intre 57 si 60
+select * from editura where cod_editura between 57 and 60 and (adresa like '%IIasi' or nume_editura='Bookzone');
+
+-- Afisati numarului total de carti pentru care numarul de exemplare disponibile in biblioteca este mai mare decat 10
+select count(*) from carti where nr_exemplare > 10;
+
+-- Afisati numarului total de carti pentru care numarul de exemplare disponibile in biblioteca este cuprins intre 5 si 10 si sunt de la editura Polirom
+select count(*) from carti inner join editura 
+on editura.cod_editura=carti.cod_editura_carte
+where nr_exemplare between 5 and 10 and nume_editura='Polirom';
+
+-- Returnarea cititorilor care au imprumutat o carte intre 1 iulie 2024 si 15 iulie 2024
+select cititori.nume, cititori.prenume, fisa_imprumut.data_imprumut from cititori inner join fisa_imprumut
+on cititori.cnp=fisa_imprumut.cnp
+where data_imprumut between '2024-07-01' and '2024-07-31';
+
+--Afisarea cartilor care sunt de la editura Nemira, grupate dupa denumire
+select carti.denumire, editura.nume_editura from carti inner join editura 
+on carti.cod_editura_carte=editura.cod_editura
+where nume_editura='Nemira'
+group by denumire;
+
+-- Afisarea cititorilor care au returnat cartile imprumutate in perioada 30 iunie 2024 si 1 august 2024
+select cititori.nume, cititori.prenume, fisa_imprumut.returnat, fisa_imprumut.data_imprumut from cititori inner join fisa_imprumut 
+on cititori.cnp=fisa_imprumut.cnp
+where returnat=True and (data_imprumut between '2024-06-30' and '2024-08-01');
+
+-- Afisati ID, numele aferent bibliotecarului caruia ii este intrebuintat culoarul pentru cartile de psihologie
+select bibliotecari.ID, bibliotecari.nume_si_prenume, culoar.categorie from culoar inner join bibliotecari on culoar.ID=bibliotecari.ID_culoar
+where culoar.categorie='Psihologie';
+
+-- Afisarea informatiilor ordonate descrescator pentru primii 4 cititori care au imprumutat carti
+select * from cititori inner join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp
+order by data_imprumut desc limit 4;
 
         Inserati aici toate instructiunile de SELECT pe care le-ati scris folosind filtrarile necesare astfel incat sa extrageti doar datele de care aveti nevoie Incercati sa acoperiti urmatoarele:
         - where
