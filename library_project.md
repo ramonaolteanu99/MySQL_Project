@@ -1,6 +1,7 @@
-Database Project for **Library database**
-##### Heading level 3
 
+## Database Project for **Library database**
+
+# Heading level 1
 The scope of this project is to use all the SQL knowledge gained throught the Software Testing course and apply them in practice.
 
 Application under test: Biblioteca database
@@ -14,7 +15,7 @@ Database description: The purpose of the library database is to collect and stor
     You can find below the database schema that was generated through Reverse Engineer and which contains all the tables and the relationships between them.
 
     The tables are connected in the following way:
-        **carti** is connected with **fisa_imprumut** through a **** relationship which was implemented through **carti.cod_carte_cheie_primara** as a primary key and **fisa_imprumut.cod_carte_fisa_imprumut_ibfk_1** as a foreign key
+        **carti** is connected with **fisa_imprumut** through a **One-to-many** relationship which was implemented through **carti.cod_carte_cheie_primara** as a primary key and **fisa_imprumut.cod_carte_fisa_imprumut_ibfk_1** as a foreign key
         **editura** is connected with **carti** through a **Many-to-One** relationship which was implemented through **editura.cod_editura_cheie_primara** as a primary key and **carti.cod_editura_carte_cheie_secundara** as a foreign key
         **** is connected with **nume tabela 6** through a **tip relatie** relationship which was implemented through **nume_tabela.nume_coloana_cheie_primara** as a primary key and **nume_tabela.nume_coloana_cheie_secundara** as a foreign key
         ...........
@@ -25,8 +26,79 @@ Database description: The purpose of the library database is to collect and stor
         DDL (Data Definition Language)
 
         The following instructions were written in the scope of CREATING the structure of the database (CREATE INSTRUCTIONS)
+Inserati aici toate instructiunile de CREATE pe care le-ati scris, atat create database cat si create table
 
-        Inserati aici toate instructiunile de CREATE pe care le-ati scris, atat create database cat si create table
+create database biblioteca;
+use biblioteca;
+create table carti
+(
+cod_Carte int not null primary key auto_increment,
+denumire varchar(50),
+autor varchar(30),
+nr_exemplare int,
+cod_editura int,
+data_publicare date,
+numar_pagini int,
+tip_coperta varchar(15),
+categorie varchar(25)
+);
+
+create table cititori
+(
+cnp int not null primary key,
+nume varchar(15) not null,
+prenume varchar(15) not null,
+adresa varchar(50),
+nr_telefon int not null
+);
+
+create table fisa_imprumut
+(
+cod_fisa int not null primary key auto_increment,
+cod_carte int not null,
+cnp int not null,
+data_imprumut date
+);
+
+create table editura
+(
+cod_editura int not null primary key auto_increment,
+nume_editura varchar(15),
+adresa varchar(50)
+);
+
+create table bibliotecari
+(
+ID int not null primary key,
+nume_si_prenume varchar(30),
+ID_culoar int not null,
+cod_fisa int not null
+
+create table culoar
+(
+ID int not null primary key auto_increment,
+nr_locuri int
+);
+
+Book table description
+- cod_carte, which is the primary key in the table (is a unique element), is of type int (integer) and is not allowed to have null values
+denumire, has the data type varchar(50), a string of up to 50 characters
+author varchar(30), a string of up to 50 characters
+nr_instance, is of integer type
+
+int edition_code,
+data_publication date,
+cash_pages int,
+cover_type varchar(15),
+category varchar(25)
+
+alter table carti change cod_editura cod_editura_carte int;
+alter table carti drop column categorie;
+alter table cititori modify cnp char(13);
+alter table fisa_imprumut modify cnp char(13);
+alter table bibliotecari drop column cod_fisa;
+alter table bibliotecari add column cnp char(13);
+alter table bibliotecari modify ID int not null auto_increment;
 
         After the database and the tables have been created, a few ALTER instructions were written in order to update the structure of the database, as described below:
 
