@@ -1,4 +1,4 @@
-## Database Project for **Library**
+# Database Project for **Library**
 
 The scope of this project is to use all the SQL knowledge gained throught the Software Testing course and apply them in practice.
 
@@ -8,13 +8,13 @@ Tools used: MySQL Workbench: can find it here
 
 Database description: The purpose of the library database is to collect and store information about about the number of exemplary available for each book, the publishing house where the books are published and year of publication. This database keeps track of the loans made by each reader, as it is very important to know when a book was borrowed or to track the stock available for each book. Also, the database shows the division of each aisle by book category.
 
+You can find below the database schema that was generated through Reverse Engineer and which contains all the tables and the relationships between them
+
 #### Database Schema
-    You can find below the database schema that was generated through Reverse Engineer and which contains all the tables and the relationships between them
 
 ![DatabaseStructure](https://github.com/ramonaolteanu99/my_database_project/blob/main/database_structure.png)
 
-  
-    The tables are connected in the following way:
+The tables are connected in the following way:
 - **carti** is connected with **fisa_imprumut** through a **Many-to-many** relationship, using the connection table **carti_fise** which was implemented through **carti.cod_carte**, as a primary key to **carti_fise.id_carte** as a foreign key, and **fisa_imprumut.cod_fisa** as a primary key to **carti_fise.id_fisa** as a foreign key
 - **editura** is connected with **carti** through a **One-to-Many** relationship which was implemented through **editura.cod_editura** as a primary key and **carti.cod_editura_carte** as a foreign key
 - **culoar** is connected with **bibliotecari** through a **One-to-One** relationship which was implemented through **culoar.ID** as a primary key and **bibliotecari.id_culoar** as a foreign key
@@ -22,7 +22,7 @@ Database description: The purpose of the library database is to collect and stor
 - **cititori** is connected with **bibliotecari** through a **One-to-One** relationship which was implemented through **cititori.cnp** as a primary key and **bibliotecari.cnp** as a foreign key
 - **cititori** is connected with **fisa_imprumut** through a **One-to-One** relationship which was implemented through **cititori.cnp** as a primary key and **fisa_imprumut.cnp** as a foreign key
 
-    Database Queries
+  Database Queries
 
 DDL (Data Definition Language)
 
