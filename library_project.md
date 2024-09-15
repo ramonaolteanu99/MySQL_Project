@@ -4,13 +4,20 @@ The scope of this project is to use all the SQL knowledge gained throught the So
 
 Application under test: Library Database
 
-Tools used: MySQL Workbench: https://github.com/ramonaolteanu99/my_database_project/blob/main/biblioteca.sql
+Tools used: MySQL Workbench: [sql_file](https://github.com/ramonaolteanu99/my_database_project/blob/main/biblioteca.sql)
 
 Database description: The purpose of the library database is to collect and store information about about the number of exemplary available for each book, the publishing house where the books are published and year of publication. This database keeps track of the loans made by each reader, as it is very important to know when a book was borrowed or to track the stock available for each book. Also, the database shows the division of each aisle by book category.
 
-    Database Schema
+#### Database Schema
+    You can find below the database schema that was generated through Reverse Engineer and which contains all the tables and the relationships between them
 
-    You can find below the database schema that was generated through Reverse Engineer and which contains all the tables and the relationships between them.
+
+
+
+
+
+
+    
 
     The tables are connected in the following way:
         carti is connected with fisa_imprumut through a Many-to-many relationship which was implemented through carti.cod_carte_ as a primary key and **fisa_imprumut.cod_carte** as a foreign key
