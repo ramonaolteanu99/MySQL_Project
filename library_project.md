@@ -13,30 +13,14 @@ Database description: The purpose of the library database is to collect and stor
 
 ![DatabaseStructure](https://github.com/ramonaolteanu99/my_database_project/blob/main/database_structure.png)
 
-
-
-
-
-
-    
-
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
     The tables are connected in the following way:
-        carti is connected with fisa_imprumut through a Many-to-many relationship which was implemented through carti.cod_carte_ as a primary key and **fisa_imprumut.cod_carte** as a foreign key
-        **editura** is connected with **carti** through a **Many-to-One** relationship which was implemented through **editura.cod_editura_cheie_primara** as a primary key and **carti.cod_editura_carte_cheie_secundara** as a foreign key
-        **** is connected with **nume tabela 6** through a **tip relatie** relationship which was implemented through **nume_tabela.nume_coloana_cheie_primara** as a primary key and **nume_tabela.nume_coloana_cheie_secundara** as a foreign key
-        ...........
-        **nume tabela n** is connected with **nume tabela n+1** through a **tip relatie** relationship which was implemented through **nume_tabela.nume_coloana_cheie_primara** as a primary key and **nume_tabela.nume_coloana_cheie_secundara** as a foreign key
+- **carti** is connected with **fisa_imprumut** through a **Many-to-many** relationship, using the connection table **carti_fise** which was implemented through **carti.cod_carte**, as a primary key to **carti_fise.id_carte** as a foreign key, and **fisa_imprumut.cod_fisa** as a primary key to **carti_fise.id_fisa** as a foreign key
+- **editura** is connected with **carti** through a **One-to-Many** relationship which was implemented through **editura.cod_editura** as a primary key and **carti.cod_editura_carte** as a foreign key
+- **culoar** is connected with **bibliotecari** through a **One-to-One** relationship which was implemented through **culoar.ID** as a primary key and **bibliotecari.id_culoar** as a foreign key
+- **culoar** is connected with **bibliotecari** through a **One-to-One** relationship which was implemented through **culoar.ID** as a primary key and **bibliotecari.id_culoar** as a foreign key
+- **cititori** is connected with **bibliotecari** through a **One-to-One** relationship which was implemented through **cititori.cnp** as a primary key and **bibliotecari.cnp** as a foreign key
+- **cititori** is connected with **fisa_imprumut** through a **One-to-One** relationship which was implemented through **cititori.cnp** as a primary key and **fisa_imprumut.cnp** as a foreign key
 
     Database Queries
 
