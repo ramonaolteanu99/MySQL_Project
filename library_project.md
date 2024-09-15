@@ -114,13 +114,16 @@ alter table fisa_imprumut add column returnat bool;
 alter table bibliotecari drop column cod_fisa;
 
   How I added foreign keys between tables:
+-- Adaugare cheie straina in tabela carti pentru coloana cod_editura_carte care sa faca referinta la cheia primara(cod_editura) din tabela editura
 alter table carti add foreign key(cod_editura_carte) references editura(cod_editura);
+The same way for the following add foreign key instructions:
 alter table fisa_imprumut add foreign key(cod_carte) references carti(cod_carte);
 alter table fisa_imprumut add foreign key(cnp) references cititori(cnp);
 alter table bibliotecari add foreign key(cnp) references cititori(cnp);
 alter table bibliotecari add foreign key(ID_culoar) references culoar(ID);
 alter table carti add foreign key(id_categorie) references culoar(ID);
-
+alter table carti_fise add foreign key(id_fisa) references fisa_imprumut(cod_fisa);
+alter table carti_fise add foreign key(id_carte) references carti(cod_carte);
   DML (Data Manipulation Language)
 
         In order to be able to use the database I populated the tables with various data necessary in order to perform queries and manipulate the data. In the testing process, this necessary data is identified in the Test Design phase and created in the Test Implementation phase.
@@ -287,6 +290,11 @@ insert into carti_fise (id_carte, id_fisa) values
 (58, 218),
 (59, 219),
 (60, 220);
+
+-- Adaugarea unei carti in baza de date a bibliotecii
+insert into carti(denumire, autor, nr_exemplare, cod_editura_carte, data_publicare, numar_pagini, tip_coperta, id_categorie) values 
+('O scrisoare pierdute', 'Ion Luca Caragiale', 9, 41, '2012-08-01', 280, 'Brosata', 223);
+
 After the insert, in order to prepare the data to be better suited for the testing process, I updated some data in the following way:
 
 -- Actualizarea numelui unui cititor
@@ -307,6 +315,9 @@ update fisa_imprumut set returnat=True where cnp=1715643786534 and cnp=164325678
 After the testing process, I deleted the data that was no longer relevant in order to preserve the database clean:
 -- Stergerea unor bibliotecari din tabela
 delete from bibliotecari where nume_si_prenume='Rusu Andrei' and nume_si_prenume='Candrea Viorel';
+
+-- Stergerea datelor din tabela culoar pentru categoria teatru si horror
+delete from culoar 
 
         DQL (Data Query Language)
 
@@ -374,6 +385,19 @@ where culoar.categorie='Psihologie';
 -- Afisarea informatiilor ordonate descrescator pentru primii 4 cititori care au imprumutat carti
 select * from cititori inner join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp
 order by data_imprumut desc limit 4;
+
+-- Afisarea tuturor informatiilor pentru 
+select * from bibliotecari left join culoar on culoar.ID=bibliotecari.ID_culoar
+order by categorie asc
+limit 3;
+-- Afisati numarul maxim si cel minim de carti disponibile in biblioteca
+select max(nr_exemplare), min(nr_exemplare) from carti;
+
+-- Afisarea tuturor informatiilor aferente cititorilor care au facut un imprumut in perioada 1 martie-31 mai 2024 si inca nu au returnat cartile, ordonate dupa nume
+select * from cititori inner join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp
+where (data_imprumut between '2024-03-01' and '2024-05-31') and returnat=False
+order by nume;
+
 
         Inserati aici toate instructiunile de SELECT pe care le-ati scris folosind filtrarile necesare astfel incat sa extrageti doar datele de care aveti nevoie Incercati sa acoperiti urmatoarele:
         - where
