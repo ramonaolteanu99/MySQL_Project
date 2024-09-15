@@ -428,7 +428,10 @@ having denumire='Maitreyi' or denumire='Patul lui Procust';
 -- Afisati numarul total de locuri pentru culoarul de romane de dragoste si comedie
 select sum(nr_locuri), categorie from culoar
 group by categorie
+having categorie='Romane de dragoste' or categorie='Comedie';
 ```
 
-
-having categorie='Romane de dragoste' or categorie='Comedie';
+## Conclusions:
+My work for this database project for has been a comprehensive and practical application of SQL knowledge gained throughout the Software Testing course.
+The project provided hands-on experience in applying SQL concepts, including data definition, manipulation, and querying, creating tables, establishing relationships. Extracting relevant information, which will help ascertain the aspects that show the current situation of the library, making decisions that will improve the situation in the future or simply, an information method through an "automated" mode (with the help of queries). 
+I built the library database based on real data scenarios, a fact that demonstrates the importance of testing that reflects real use cases.
