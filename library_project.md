@@ -11,6 +11,7 @@ Database description: The purpose of the library database is to collect and stor
 #### Database Schema
     You can find below the database schema that was generated through Reverse Engineer and which contains all the tables and the relationships between them
 
+![DatabaseStructure](https://github.com/ramonaolteanu99/my_database_project/blob/main/database_structure.png)
 
 
 
@@ -19,6 +20,17 @@ Database description: The purpose of the library database is to collect and stor
 
     
 
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     The tables are connected in the following way:
         carti is connected with fisa_imprumut through a Many-to-many relationship which was implemented through carti.cod_carte_ as a primary key and **fisa_imprumut.cod_carte** as a foreign key
         **editura** is connected with **carti** through a **Many-to-One** relationship which was implemented through **editura.cod_editura_cheie_primara** as a primary key and **carti.cod_editura_carte_cheie_secundara** as a foreign key
