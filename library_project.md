@@ -14,12 +14,13 @@ You can find below the database schema that was generated through Reverse Engine
 
 ![DatabaseStructure](https://github.com/ramonaolteanu99/my_database_project/blob/main/database_structure.png)
 
+
 The tables are connected in the following way:
 - **carti** is connected with **fisa_imprumut** through a **Many-to-many** relationship, using the connection table **carti_fise** which was implemented through **carti.cod_carte**, as a primary key to **carti_fise.id_carte** as a foreign key, and **fisa_imprumut.cod_fisa** as a primary key to **carti_fise.id_fisa** as a foreign key
 - **editura** is connected with **carti** through a **One-to-Many** relationship which was implemented through **editura.cod_editura** as a primary key and **carti.cod_editura_carte** as a foreign key
 - **culoar** is connected with **bibliotecari** through a **One-to-One** relationship which was implemented through **culoar.ID** as a primary key and **bibliotecari.id_culoar** as a foreign key
-- **culoar** is connected with **bibliotecari** through a **One-to-One** relationship which was implemented through **culoar.ID** as a primary key and **bibliotecari.id_culoar** as a foreign key
-- **cititori** is connected with **bibliotecari** through a **One-to-One** relationship which was implemented through **cititori.cnp** as a primary key and **bibliotecari.cnp** as a foreign key
+- **culoar** is connected with **carti** through a **One-to-Many** relationship which was implemented through **culoar.ID** as a primary key and **carti.id_categorie** as a foreign key
+- **cititori** is connected with **bibliotecari** through a **One-to-Many** relationship which was implemented through **cititori.cnp** as a primary key and **bibliotecari.cnp** as a foreign key
 - **cititori** is connected with **fisa_imprumut** through a **One-to-One** relationship which was implemented through **cititori.cnp** as a primary key and **fisa_imprumut.cnp** as a foreign key
 
 ## Database Queries
@@ -101,7 +102,7 @@ Book table description
 - tip_coperta, has the data type varchar(15), a string of up to 15 characters
 - categorie, has the data type varchar(15), a string of up to 15 characters
 
-     After the database and the tables have been created, a few ALTER instructions were written in order to update the structure of the database, as described below:
+After the database and the tables have been created, a few ALTER instructions were written in order to update the structure of the database, as described below:
 ```
 alter table carti change cod_editura cod_editura_carte int;
 alter table carti drop column categorie;
@@ -117,7 +118,7 @@ alter table fisa_imprumut add column returnat bool;
 alter table bibliotecari drop column cod_fisa;
 ```
 
-  How I added foreign keys between tables:
+How I added foreign keys between tables:
 ```
 -- Adaugare cheie straina in tabela carti pentru coloana cod_editura_carte care sa faca referinta la cheia primara(cod_editura) din tabela editura
 alter table carti add foreign key(cod_editura_carte) references editura(cod_editura);
@@ -343,7 +344,7 @@ select * from editura where nume_editura='Litera';
  ---Afisarea tuturor datelor pentru editura Corint sau pentru cea/cele care contin in nume grupul de litere 'escu'
 select * from editura where nume_editura='Corint' or nume_editura like '%escu';
 
-# Returneaza numele, autorul, cate exemplare sunt disponibile si data publicarii, pentru cartile publicate dupa 30 decembrie 2019 si la editura Humanitas
+-- Returneaza numele, autorul, cate exemplare sunt disponibile si data publicarii, pentru cartile publicate dupa 30 decembrie 2019 si la editura Humanitas
 select denumire, autor, nr_exemplare, data_publicare, nume_editura from carti inner join editura
 on carti.cod_editura_carte=editura.cod_editura
 where data_publicare > '2019-12-30' and nume_editura='Humanitas';
