@@ -10,7 +10,7 @@ Database description: The purpose of the library database is to collect and stor
 
 You can find below the database schema that was generated through Reverse Engineer and which contains all the tables and the relationships between them
 
-#### Database Schema
+## Database Schema
 
 ![DatabaseStructure](https://github.com/ramonaolteanu99/my_database_project/blob/main/database_structure.png)
 
@@ -22,9 +22,9 @@ The tables are connected in the following way:
 - **cititori** is connected with **bibliotecari** through a **One-to-One** relationship which was implemented through **cititori.cnp** as a primary key and **bibliotecari.cnp** as a foreign key
 - **cititori** is connected with **fisa_imprumut** through a **One-to-One** relationship which was implemented through **cititori.cnp** as a primary key and **fisa_imprumut.cnp** as a foreign key
 
-  Database Queries
+## Database Queries
 
-DDL (Data Definition Language)
+### DDL (Data Definition Language)
 
 The following instructions were written in the scope of CREATING the structure of the database (CREATE INSTRUCTIONS)
 ```sql
@@ -88,7 +88,7 @@ id int not null primary key auto_increment,
 id_carte int not null,
 id_fisa int not null
 );
-
+```
 Now I will describe as an example one of the created tables.
 Book table description
 - cod_carte, which is the primary key in the table (is a unique element), is of type int (integer) and is not allowed to have null values
@@ -102,6 +102,7 @@ Book table description
 - categorie, has the data type varchar(15), a string of up to 15 characters
 
      After the database and the tables have been created, a few ALTER instructions were written in order to update the structure of the database, as described below:
+```
 alter table carti change cod_editura cod_editura_carte int;
 alter table carti drop column categorie;
 alter table carti add column id_categorie int not null;
@@ -114,8 +115,10 @@ alter table bibliotecari modify ID int not null auto_increment;
 alter table editura modify nume_editura varchar(25);
 alter table fisa_imprumut add column returnat bool;
 alter table bibliotecari drop column cod_fisa;
+```
 
   How I added foreign keys between tables:
+```
 -- Adaugare cheie straina in tabela carti pentru coloana cod_editura_carte care sa faca referinta la cheia primara(cod_editura) din tabela editura
 alter table carti add foreign key(cod_editura_carte) references editura(cod_editura);
 The same way for the following add foreign key instructions:
@@ -126,12 +129,14 @@ alter table bibliotecari add foreign key(ID_culoar) references culoar(ID);
 alter table carti add foreign key(id_categorie) references culoar(ID);
 alter table carti_fise add foreign key(id_fisa) references fisa_imprumut(cod_fisa);
 alter table carti_fise add foreign key(id_carte) references carti(cod_carte);
-  DML (Data Manipulation Language)
+```
 
-        In order to be able to use the database I populated the tables with various data necessary in order to perform queries and manipulate the data. In the testing process, this necessary data is identified in the Test Design phase and created in the Test Implementation phase.
+### DML (Data Manipulation Language)
+
+In order to be able to use the database I populated the tables with various data necessary in order to perform queries and manipulate the data. In the testing process, this necessary data is identified in the Test Design phase and created in the Test Implementation phase.
 
 Below you can find all the insert instructions that were created in the scope of this project:
-
+```
 -- Inserare date in tabela culoar
 insert into culoar (nr_locuri, categorie) values
 (12, 'Beletristica'),
@@ -296,9 +301,10 @@ insert into carti_fise (id_carte, id_fisa) values
 -- Adaugarea unei carti in baza de date a bibliotecii
 insert into carti(denumire, autor, nr_exemplare, cod_editura_carte, data_publicare, numar_pagini, tip_coperta, id_categorie) values 
 ('O scrisoare pierdute', 'Ion Luca Caragiale', 9, 41, '2012-08-01', 280, 'Brosata', 223);
+```
 
 After the insert, in order to prepare the data to be better suited for the testing process, I updated some data in the following way:
-
+```
 -- Actualizarea numelui unui cititor
 update cititori
 set nume='Simionescu'
@@ -313,17 +319,20 @@ update cititori set nr_telefon=0751452517, adresa='Str. Principala nr. 12, Voine
 
 -- Actualizarea statusului unor carti la momentul returnarii
 update fisa_imprumut set returnat=True where cnp=1715643786534 and cnp=1643256789076;
+```
 
 After the testing process, I deleted the data that was no longer relevant in order to preserve the database clean:
+```
 -- Stergerea unor bibliotecari din tabela
 delete from bibliotecari where nume_si_prenume='Rusu Andrei' or nume_si_prenume='Candrea Viorel';
 
 -- Stergerea datelor din tabela culoar pentru categoria teatru si horror
-delete from culoar 
+delete from culoar where categorie='Teatru' or categorie='Horror';
+```
 
 ### DQL (Data Query Language)
 
-        In order to simulate various scenarios that might happen in real life I created the following queries that would cover multiple potential real-life situations:
+In order to simulate various scenarios that might happen in real life I created the following queries that would cover multiple potential real-life situations:
 ```
 -- Afisare tabela carti
 select * from carti;
@@ -331,7 +340,7 @@ select * from carti;
 -- Afisarea tuturor datelor din tabela pentru editura Litera
 select * from editura where nume_editura='Litera';
 
- Afisarea tuturor datelor pentru editura Corint sau pentru cea/cele care contin in nume grupul de litere 'escu'
+ ---Afisarea tuturor datelor pentru editura Corint sau pentru cea/cele care contin in nume grupul de litere 'escu'
 select * from editura where nume_editura='Corint' or nume_editura like '%escu';
 
 # Returneaza numele, autorul, cate exemplare sunt disponibile si data publicarii, pentru cartile publicate dupa 30 decembrie 2019 si la editura Humanitas
@@ -419,4 +428,7 @@ having denumire='Maitreyi' or denumire='Patul lui Procust';
 -- Afisati numarul total de locuri pentru culoarul de romane de dragoste si comedie
 select sum(nr_locuri), categorie from culoar
 group by categorie
+```
+
+
 having categorie='Romane de dragoste' or categorie='Comedie';
