@@ -25,7 +25,6 @@ DDL (Data Definition Language)
 
 The following instructions were written in the scope of CREATING the structure of the database (CREATE INSTRUCTIONS)
 ```sql
--- Create datebase and use
 create database biblioteca;
 use biblioteca;
 
