@@ -340,17 +340,17 @@ delete from culoar
 ### DQL (Data Query Language)
 
         In order to simulate various scenarios that might happen in real life I created the following queries that would cover multiple potential real-life situations:
-
+```
 -- Afisare tabela carti
 select * from carti;
 
 -- Afisarea tuturor datelor din tabela pentru editura Litera
 select * from editura where nume_editura='Litera';
 
--- Afisarea tuturor datelor pentru editura Corint sau pentru cea/cele care contin in nume grupul de litere 'escu'
+ Afisarea tuturor datelor pentru editura Corint sau pentru cea/cele care contin in nume grupul de litere 'escu'
 select * from editura where nume_editura='Corint' or nume_editura like '%escu';
 
--- Returneaza numele, autorul, cate exemplare sunt disponibile si data publicarii, pentru cartile publicate dupa 30 decembrie 2019 si la editura Humanitas
+# Returneaza numele, autorul, cate exemplare sunt disponibile si data publicarii, pentru cartile publicate dupa 30 decembrie 2019 si la editura Humanitas
 select denumire, autor, nr_exemplare, data_publicare, nume_editura from carti inner join editura
 on carti.cod_editura_carte=editura.cod_editura
 where data_publicare > '2019-12-30' and nume_editura='Humanitas';
@@ -361,7 +361,7 @@ select denumire, autor from carti where autor not in ('Mircea Eliade', 'Ionel Te
 -- Afisarea tuturor datelor din tabela cititori care au imprumutat carti intre 1 februare 2024 si 30 mai 2024
 select * from cititori left join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp where data_imprumut between '2024-02-01'and '2024-05-30';
 
--- Afisati primele 5 carti, autorul si numarul de exemplare pentru care media nr de exemplare este mai mare decat numarul de bucati disponibile, ordonate descrescator dupa data publicarii
+-- Afisati primele 5 carti, autorul si numarul de exemplare pentru care media nr de exemplare este mai mare decat nr de bucati disponibile, ordonate descrescator dupa data publicarii
 select denumire, autor, nr_exemplare, data_publicare from carti where nr_exemplare > (select avg(nr_exemplare) from carti)
 order by data_publicare desc limit 5;
 
@@ -385,7 +385,7 @@ select cititori.nume, cititori.prenume, fisa_imprumut.data_imprumut from cititor
 on cititori.cnp=fisa_imprumut.cnp
 where data_imprumut between '2024-07-01' and '2024-07-31';
 
---Afisarea cartilor care sunt de la editura Nemira, grupate dupa denumire
+-- Afisarea cartilor care sunt de la editura Nemira, grupate dupa denumire
 select carti.denumire, editura.nume_editura from carti inner join editura 
 on carti.cod_editura_carte=editura.cod_editura
 where nume_editura='Nemira'
@@ -396,7 +396,7 @@ select cititori.nume, cititori.prenume, fisa_imprumut.returnat, fisa_imprumut.da
 on cititori.cnp=fisa_imprumut.cnp
 where returnat=True and (data_imprumut between '2024-06-30' and '2024-08-01');
 
--- Afisati ID, numele aferent bibliotecarului caruia ii este intrebuintat culoarul pentru cartile de psihologie
+-- Afisati ID-ul, numele aferent bibliotecarului caruia ii este intrebuintat culoarul pentru cartile de psihologie
 select bibliotecari.ID, bibliotecari.nume_si_prenume, culoar.categorie from culoar inner join bibliotecari on culoar.ID=bibliotecari.ID_culoar
 where culoar.categorie='Psihologie';
 
@@ -404,10 +404,11 @@ where culoar.categorie='Psihologie';
 select * from cititori inner join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp
 order by data_imprumut desc limit 4;
 
--- Afisarea tuturor informatiilor pentru 
+-- Afisarea tuturor datelor pentru primii 3 bibliotecari in ordine ascendenta si culoarul care ii este atribuit
 select * from bibliotecari left join culoar on culoar.ID=bibliotecari.ID_culoar
 order by categorie asc
 limit 3;
+
 -- Afisati numarul maxim si cel minim de carti disponibile in biblioteca
 select max(nr_exemplare), min(nr_exemplare) from carti;
 
@@ -415,8 +416,8 @@ select max(nr_exemplare), min(nr_exemplare) from carti;
 select * from cititori inner join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp
 where (data_imprumut between '2024-03-01' and '2024-05-31') and returnat=False
 order by nume;
-
--- Afisarea cititorilor care locuiesc in Barnova si au imprumutat carti dupa data de 1 mai 2024
+select * from cititori;
+- Afisarea cititorilor care locuiesc in Barnova si au imprumutat carti dupa data de 1 mai 2024
 select * from cititori left join fisa_imprumut
 on cititori.cnp=fisa_imprumut.cnp 
 where adresa like '%Barnova' and data_imprumut > '2024-05-01';
@@ -429,14 +430,9 @@ having adresa like 'Str. Principala%';
 -- Afisati cate exemplare pentru Maitrey si Patul lui Procust sunt disponibile in biblioteca
 select sum(nr_exemplare), denumire, autor from carti
 group by denumire, autor
-having denumire='Maitreyi' and denumire='Patul lui Procust';
+having denumire='Maitreyi' or denumire='Patul lui Procust';
 
 -- Afisati numarul total de locuri pentru culoarul de romane de dragoste si comedie
 select sum(nr_locuri), categorie from culoar
 group by categorie
 having categorie='Romane de dragoste' or categorie='Comedie';
-
-    Conclusions
-
-    Inserati aici o concluzie cu privire la ceea ce ati lucrat, gen lucrurile pe care le-ati invatat, lessons learned, un rezumat asupra a ceea ce ati facut si orice alta informatie care vi se pare relevanta pentru o concluzie finala asupra a ceea ce ati lucrat
-
