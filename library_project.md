@@ -2,7 +2,7 @@
 
 The scope of this project is to use all the SQL knowledge gained throught the Software Testing course and apply them in practice.
 
-Application under test: library database
+Application under test: Library Database
 
 Tools used: MySQL Workbench: 
 
@@ -13,7 +13,7 @@ Database description: The purpose of the library database is to collect and stor
     You can find below the database schema that was generated through Reverse Engineer and which contains all the tables and the relationships between them.
 
     The tables are connected in the following way:
-        **carti** is connected with **fisa_imprumut** through a **Many-to-many** relationship which was implemented through **carti.cod_carte_** as a primary key and **fisa_imprumut.cod_carte** as a foreign key
+        carti is connected with fisa_imprumut through a Many-to-many relationship which was implemented through carti.cod_carte_ as a primary key and **fisa_imprumut.cod_carte** as a foreign key
         **editura** is connected with **carti** through a **Many-to-One** relationship which was implemented through **editura.cod_editura_cheie_primara** as a primary key and **carti.cod_editura_carte_cheie_secundara** as a foreign key
         **** is connected with **nume tabela 6** through a **tip relatie** relationship which was implemented through **nume_tabela.nume_coloana_cheie_primara** as a primary key and **nume_tabela.nume_coloana_cheie_secundara** as a foreign key
         ...........
@@ -99,23 +99,14 @@ Book table description
 - categorie, has the data type varchar(15), a string of up to 15 characters
 
      After the database and the tables have been created, a few ALTER instructions were written in order to update the structure of the database, as described below:
--- Redenumire coloana cod_editura din tabela carti
 alter table carti change cod_editura cod_editura_carte int;
-# Atergere coloana categorie din tabela carti
 alter table carti drop column categorie;
-# Adaugare coloana id_categorie in tabela carti
 alter table carti add column id_categorie int not null;
-# Adaugare coloana categorie in tabela culoar
 alter table culoar add column categorie varchar(25);
-# Modificare tip coloana cnp din tabela cititori
 alter table cititori modify cnp char(13);
-# Modificare tip coloana cnp din tabela fisa_imprumut
 alter table fisa_imprumut modify cnp char(13);
-# stergere coloana cod_fisa din tabela bibliotecari
 alter table bibliotecari drop column cod_fisa;
-# Adaugare coloana cnp in tabela bibliotecari
 alter table bibliotecari add column cnp char(13);
-# Modificare tip coloana ID
 alter table bibliotecari modify ID int not null auto_increment;
 alter table editura modify nume_editura varchar(25);
 alter table fisa_imprumut add column returnat bool;
@@ -322,12 +313,12 @@ update fisa_imprumut set returnat=True where cnp=1715643786534 and cnp=164325678
 
 After the testing process, I deleted the data that was no longer relevant in order to preserve the database clean:
 -- Stergerea unor bibliotecari din tabela
-delete from bibliotecari where nume_si_prenume='Rusu Andrei' and nume_si_prenume='Candrea Viorel';
+delete from bibliotecari where nume_si_prenume='Rusu Andrei' or nume_si_prenume='Candrea Viorel';
 
 -- Stergerea datelor din tabela culoar pentru categoria teatru si horror
 delete from culoar 
 
-        DQL (Data Query Language)
+### DQL (Data Query Language)
 
         In order to simulate various scenarios that might happen in real life I created the following queries that would cover multiple potential real-life situations:
 
@@ -351,7 +342,7 @@ select denumire, autor from carti where autor not in ('Mircea Eliade', 'Ionel Te
 -- Afisarea tuturor datelor din tabela cititori care au imprumutat carti intre 1 februare 2024 si 30 mai 2024
 select * from cititori left join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp where data_imprumut between '2024-02-01'and '2024-05-30';
 
--- Afisati cartile, autorul si numarul de exemplare pentru care media nr de exemplare este mai mare decat nr de bucati disponibile, ordonate descrescator dupa data publicarii
+-- Afisati primele 5 carti, autorul si numarul de exemplare pentru care media nr de exemplare este mai mare decat numarul de bucati disponibile, ordonate descrescator dupa data publicarii
 select denumire, autor, nr_exemplare, data_publicare from carti where nr_exemplare > (select avg(nr_exemplare) from carti)
 order by data_publicare desc limit 5;
 
@@ -406,21 +397,26 @@ select * from cititori inner join fisa_imprumut on cititori.cnp=fisa_imprumut.cn
 where (data_imprumut between '2024-03-01' and '2024-05-31') and returnat=False
 order by nume;
 
+-- Afisarea cititorilor care locuiesc in Barnova si au imprumutat carti dupa data de 1 mai 2024
+select * from cititori left join fisa_imprumut
+on cititori.cnp=fisa_imprumut.cnp 
+where adresa like '%Barnova' and data_imprumut > '2024-05-01';
 
-        Inserati aici toate instructiunile de SELECT pe care le-ati scris folosind filtrarile necesare astfel incat sa extrageti doar datele de care aveti nevoie Incercati sa acoperiti urmatoarele:
-        - where
-        - AND
-        - OR
-        - NOT
-        - like
-        - inner join
-        - left join
-        - OPTIONAL: right join
-        - OPTIONAL: cross join
-        - functii agregate
-        - group by
-        - having
-        - OPTIONAL DAR RECOMANDAT: Subqueries - nu au fost in scopul cursului. Puteti sa consultati tutorialul asta si daca nu intelegeti ceva contactati fie trainerul, fie coordonatorul de grupa
+-- Afisati câți cititori locuiesc pe strada Principala indiferent de oras 
+select count(cnp), nume, prenume, adresa from cititori
+group by nume, prenume, adresa
+having adresa like 'Str. Principala%';
+
+-- Afisati cate exemplare pentru Maitrey si Patul lui Procust sunt disponibile in biblioteca
+select sum(nr_exemplare), denumire, autor from carti
+group by denumire, autor
+having denumire='Maitreyi' and denumire='Patul lui Procust';
+
+-- Afisati numarul total de locuri pentru culoarul de romane de dragoste si comedie
+select sum(nr_locuri), categorie from culoar
+group by categorie
+having categorie='Romane de dragoste' or categorie='Comedie';
+
     Conclusions
 
     Inserati aici o concluzie cu privire la ceea ce ati lucrat, gen lucrurile pe care le-ati invatat, lessons learned, un rezumat asupra a ceea ce ati facut si orice alta informatie care vi se pare relevanta pentru o concluzie finala asupra a ceea ce ati lucrat
