@@ -99,17 +99,25 @@ Book table description
 - categorie, has the data type varchar(15), a string of up to 15 characters
 
      After the database and the tables have been created, a few ALTER instructions were written in order to update the structure of the database, as described below:
+# Redenumire coloana cod_editura din tabela carti
 alter table carti change cod_editura cod_editura_carte int;
+# Atergere coloana categorie din tabela carti
 alter table carti drop column categorie;
--- Adaugare coloana id_categorie in tabela carti
+# Adaugare coloana id_categorie in tabela carti
 alter table carti add column id_categorie int not null;
-alter table cititori modify cnp char(13);
-alter table fisa_imprumut modify cnp char(13);
-alter table bibliotecari drop column cod_fisa;
-alter table bibliotecari add column cnp char(13);
-alter table bibliotecari modify ID int not null auto_increment;
+# Adaugare coloana categorie in tabela culoar
 alter table culoar add column categorie varchar(25);
-alter table editura modify nume_editura varchar(25)
+# Modificare tip coloana cnp din tabela cititori
+alter table cititori modify cnp char(13);
+# Modificare tip coloana cnp din tabela fisa_imprumut
+alter table fisa_imprumut modify cnp char(13);
+# stergere coloana cod_fisa din tabela bibliotecari
+alter table bibliotecari drop column cod_fisa;
+# Adaugare coloana cnp in tabela bibliotecari
+alter table bibliotecari add column cnp char(13);
+# Modificare tip coloana ID
+alter table bibliotecari modify ID int not null auto_increment;
+alter table editura modify nume_editura varchar(25);
 alter table fisa_imprumut add column returnat bool;
 alter table bibliotecari drop column cod_fisa;
 
