@@ -99,7 +99,7 @@ Book table description
 - categorie, has the data type varchar(15), a string of up to 15 characters
 
      After the database and the tables have been created, a few ALTER instructions were written in order to update the structure of the database, as described below:
-# Redenumire coloana cod_editura din tabela carti
+-- Redenumire coloana cod_editura din tabela carti
 alter table carti change cod_editura cod_editura_carte int;
 # Atergere coloana categorie din tabela carti
 alter table carti drop column categorie;
