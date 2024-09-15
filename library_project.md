@@ -1,12 +1,10 @@
+## Database Project for **Library**
 
-## Database Project for **Library database**
-
-# Heading level 1
 The scope of this project is to use all the SQL knowledge gained throught the Software Testing course and apply them in practice.
 
-Application under test: Biblioteca database
+Application under test: library database
 
-Tools used: MySQL Workbench
+Tools used: MySQL Workbench: 
 
 Database description: The purpose of the library database is to collect and store information about about the number of exemplary available for each book, the publishing house where the books are published and year of publication. This database keeps track of the loans made by each reader, as it is very important to know when a book was borrowed or to track the stock available for each book. Also, the database shows the division of each aisle by book category.
 
@@ -26,9 +24,11 @@ Database description: The purpose of the library database is to collect and stor
 DDL (Data Definition Language)
 
 The following instructions were written in the scope of CREATING the structure of the database (CREATE INSTRUCTIONS)
-
+```sql
+-- Create datebase and use
 create database biblioteca;
 use biblioteca;
+
 create table carti
 (
 cod_Carte int not null primary key auto_increment,
@@ -79,6 +79,7 @@ ID int not null primary key auto_increment,
 nr_locuri int
 );
 
+-- Creaare tabela de legatura intre carti si fisa_imprumut
 create table carti_fise
 (
 id int not null primary key auto_increment,
@@ -345,7 +346,7 @@ select * from cititori left join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp
 
 -- Afisati cartile, autorul si numarul de exemplare pentru care media nr de exemplare este mai mare decat nr de bucati disponibile, ordonate descrescator dupa data publicarii
 select denumire, autor, nr_exemplare, data_publicare from carti where nr_exemplare > (select avg(nr_exemplare) from carti)
-order by data_publicare desc;
+order by data_publicare desc limit 5;
 
 -- Afisati primii 6 cititori care locuiesc in Iasi, indiferent de adresa exacta
 select nume, prenume, adresa from cititori where adresa like '%Iasi' 
