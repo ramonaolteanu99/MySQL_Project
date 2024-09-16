@@ -288,7 +288,7 @@ select * from editura where nume_editura='Litera';
 # Afisarea tuturor datelor pentru editura Corint sau pentru cea/cele care contin in nume grupul de litere 'escu'
 select * from editura where nume_editura='Corint' or nume_editura like '%escu';
 
-# Returneaza numele, autorul, cate exemplare sunt disponibile si data publicarii, pentru cartile publicate dupa 30 decembrie 2019 si la editura Humanitas
+# Returneaza denumirea, autorul, cate exemplare sunt disponibile si data publicarii, pentru cartile publicate dupa 30 decembrie 2019 si la editura Humanitas
 select denumire, autor, nr_exemplare, data_publicare, nume_editura from carti inner join editura
 on carti.cod_editura_carte=editura.cod_editura
 where data_publicare > '2019-12-30' and nume_editura='Humanitas';
