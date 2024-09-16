@@ -62,7 +62,7 @@ id_fisa int not null
 
 # Redenumire coloana cod_editura din tabela carti
 alter table carti change cod_editura cod_editura_carte int;
-# Atergere coloana categorie din tabela carti
+# Stergere coloana categorie din tabela carti
 alter table carti drop column categorie;
 # Adaugare coloana id_categorie in tabela carti
 alter table carti add column id_categorie int not null;
