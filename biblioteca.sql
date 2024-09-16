@@ -307,7 +307,7 @@ order by data_publicare desc limit 5;
 select nume, prenume, adresa from cititori where adresa like '%Iasi' 
 order by nume limit 6;
 
-# Afisati editura/editurile care sunt din Iasi sau sunt Bookzone dar care sa aiba codul codul de editura cuprins intre 57 si 60
+# Afisati editura/editurile care sunt din Iasi sau sunt Bookzone dar care sa aiba codul de editura cuprins intre 57 si 60
 select * from editura where cod_editura between 57 and 60 and (adresa like '%IIasi' or nume_editura='Bookzone');
 
 # Afisati numarului total de carti pentru care numarul de exemplare disponibile in biblioteca este mai mare decat 10
