@@ -352,7 +352,7 @@ where data_publicare > '2019-12-30' and nume_editura='Humanitas';
 -- Afisati numele si autorul cartilor care nu sunt scrise de Mircea Eliade, Ionel Teodoreanu si Camil Petrescu
 select denumire, autor from carti where autor not in ('Mircea Eliade', 'Ionel Teodoreanu', 'Camil Petrescu');
 
--- Afisarea tuturor datelor din tabela cititori care au imprumutat carti intre 1 februare 2024 si 30 mai 2024
+-- Afisarea tuturor datelor din tabela cititori care facut un imprumut de carti intre 1 februare 2024 si 30 mai 2024
 select * from cititori left join fisa_imprumut on cititori.cnp=fisa_imprumut.cnp where data_imprumut between '2024-02-01'and '2024-05-30';
 
 -- Afisati primele 5 carti, autorul si numarul de exemplare pentru care media nr de exemplare este mai mare decat nr de bucati disponibile, ordonate descrescator dupa data publicarii
