@@ -327,7 +327,6 @@ where data_imprumut between '2024-07-01' and '2024-07-31';
 select carti.denumire, editura.nume_editura from carti inner join editura 
 on carti.cod_editura_carte=editura.cod_editura
 where nume_editura='Nemira'
-group by denumire;
 
 # Afisarea cititorilor care au returnat cartile imprumutate in perioada 30 iunie 2024 si 1 august 2024
 select cititori.nume, cititori.prenume, fisa_imprumut.returnat, fisa_imprumut.data_imprumut from cititori inner join fisa_imprumut 
