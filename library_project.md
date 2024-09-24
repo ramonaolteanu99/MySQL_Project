@@ -382,8 +382,7 @@ where data_imprumut between '2024-07-01' and '2024-07-31';
 -- Afisarea cartilor care sunt de la editura Nemira, grupate dupa denumire
 select carti.denumire, editura.nume_editura from carti inner join editura 
 on carti.cod_editura_carte=editura.cod_editura
-where nume_editura='Nemira'
-group by denumire;
+where nume_editura='Nemira';
 
 -- Afisarea cititorilor care au returnat cartile imprumutate in perioada 30 iunie 2024 si 1 august 2024
 select cititori.nume, cititori.prenume, fisa_imprumut.returnat, fisa_imprumut.data_imprumut from cititori inner join fisa_imprumut 
@@ -411,7 +410,8 @@ select * from cititori inner join fisa_imprumut on cititori.cnp=fisa_imprumut.cn
 where (data_imprumut between '2024-03-01' and '2024-05-31') and returnat=False
 order by nume;
 select * from cititori;
-- Afisarea cititorilor care locuiesc in Barnova si au imprumutat carti dupa data de 1 mai 2024
+
+-- Afisarea cititorilor care locuiesc in Barnova si au imprumutat carti dupa data de 1 mai 2024
 select * from cititori left join fisa_imprumut
 on cititori.cnp=fisa_imprumut.cnp 
 where adresa like '%Barnova' and data_imprumut > '2024-05-01';
